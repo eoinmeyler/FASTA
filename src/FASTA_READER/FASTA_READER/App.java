@@ -103,9 +103,11 @@ public class App
 				String dna = new String(dnaTest.array());
 				Map<String, DNASequence> sequence = app.parseFastaText(dna);
 				
-				DNASequence dnaSequence = sequence.get("P3.b");
-				int start = app.findStartSequence(dnaSequence.getSequenceAsString());
-				System.out.println("Start Sequence: " + start);
+				for (String promoter : sequence.keySet()){
+					DNASequence dnaSequence = sequence.get(promoter);
+					int start = app.findStartSequence(dnaSequence.getSequenceAsString());
+					System.out.println("Start Sequence: " + start);
+				}
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
