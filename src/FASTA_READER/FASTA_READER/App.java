@@ -101,7 +101,11 @@ public class App
 				CharBuffer dnaTest = CharBuffer.allocate(4096);
 				int dnaSize = fastaFileRead.read(dnaTest);
 				String dna = new String(dnaTest.array());
-				app.parseFastaText(dna);
+				Map<String, DNASequence> sequence = app.parseFastaText(dna);
+				
+				DNASequence dnaSequence = sequence.get("P3.b");
+				int start = app.findStartSequence(dnaSequence.getSequenceAsString());
+				System.out.println("Start Sequence: " + start);
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
