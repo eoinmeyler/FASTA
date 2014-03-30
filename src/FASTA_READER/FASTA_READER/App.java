@@ -1,9 +1,13 @@
 package FASTA_READER.FASTA_READER;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.CharBuffer;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -88,7 +92,41 @@ public class App
 	public static void main( String[] args )
     {
 		App app = new App();
-		Map<String, DNASequence> map = app.parseFastaText(TEST_DNA_SEQUENCE_HSU14574);
+		if (args.length == 1)
+		{
+			String filename = args[0];
+			BufferedReader fastaFileRead = null;
+			try {
+				fastaFileRead = new BufferedReader( new FileReader(filename));
+				CharBuffer dnaTest = CharBuffer.allocate(4096);
+				int dnaSize = fastaFileRead.read(dnaTest);
+				String dna = new String(dnaTest.array());
+				app.parseFastaText(dna);
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally{
+				if (fastaFileRead != null) {
+					try {
+						fastaFileRead.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		}
+		
+		else {
+			System.out.println("Usage: FASTA <file>");
+		}
+				
+//		Map<String, DNASequence> map = app.parseFastaText(TEST_DNA_SEQUENCE_HSU14574);
 		
     }
 }
