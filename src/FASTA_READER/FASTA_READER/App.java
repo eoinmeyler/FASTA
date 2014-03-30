@@ -107,6 +107,10 @@ public class App
 					DNASequence dnaSequence = sequence.get(promoter);
 					int start = app.findStartSequence(dnaSequence.getSequenceAsString());
 					System.out.println("Start Sequence: " + start);
+					int min35 = app.findMinus35Box(dnaSequence.getSequenceAsString());
+					System.out.println("Minus 35 Box: " + min35);
+					int min10 = app.findMinus10Box(dnaSequence.getSequenceAsString());
+					System.out.println("Minus 10 Box: " + min10);
 				}
 				
 			} catch (FileNotFoundException e) {
