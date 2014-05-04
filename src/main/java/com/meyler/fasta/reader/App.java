@@ -1,13 +1,12 @@
 package com.meyler.fasta.reader;
 
+import org.biojava3.core.sequence.DNASequence;
+import org.biojava3.core.sequence.io.FastaReaderHelper;
+
 import java.io.*;
 import java.nio.CharBuffer;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.biojava3.core.sequence.DNASequence;
-import org.biojava3.core.sequence.io.FastaReaderHelper;
-
 
 
 /**
@@ -35,6 +34,43 @@ class App {
 //            + "CCATTGCACTCCAGCCTGGGCAACAAGAGCGAAACTCCGTCTCAAAAAAAA";
 // --Commented out by Inspection STOP (04/05/14 14:31)
 
+
+    public static void main(String[] args) {
+        App app = new App();
+        if (args.length == 1) {
+            String filename = args[0];
+            BufferedReader fastaFileRead = null;
+            try {
+                fastaFileRead = new BufferedReader(new FileReader(filename));
+                CharBuffer dnaTest = CharBuffer.allocate(4096);
+                int dnaSize = fastaFileRead.read(dnaTest);
+                String dna = new String(dnaTest.array());
+                app.parseFastaText(dna);
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } finally {
+                if (fastaFileRead != null) {
+                    try {
+                        fastaFileRead.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        } else {
+            System.out.println("Usage: FASTA <file>");
+        }
+
+//		Map<String, DNASequence> map = app.parseFastaText(TEST_DNA_SEQUENCE_HSU14574);
+
+    }
 
     Map<String, DNASequence> parseFastaText(String fastaText) {
 
@@ -81,46 +117,8 @@ class App {
         return dnaSequence.indexOf("TTCAAA");
     }
 
-
     public int findMinus10Box(String dnaSequence) {
         return dnaSequence.indexOf("ACAAT");
     }
-
-    public static void main(String[]args) {
-        App app = new App();
-        if (args.length == 1) {
-            String filename = args[0];
-            BufferedReader fastaFileRead = null;
-            try {
-                fastaFileRead = new BufferedReader(new FileReader(filename));
-                CharBuffer dnaTest = CharBuffer.allocate(4096);
-                int dnaSize = fastaFileRead.read(dnaTest);
-                String dna = new String(dnaTest.array());
-                app.parseFastaText(dna);
-
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } finally {
-                if (fastaFileRead != null) {
-                    try {
-                        fastaFileRead.close();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        } else {
-            System.out.println("Usage: FASTA <file>");
-        }
-
-//		Map<String, DNASequence> map = app.parseFastaText(TEST_DNA_SEQUENCE_HSU14574);
-
-    }
-    }
+}
 
