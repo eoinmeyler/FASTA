@@ -101,7 +101,17 @@ public class App
 				CharBuffer dnaTest = CharBuffer.allocate(4096);
 				int dnaSize = fastaFileRead.read(dnaTest);
 				String dna = new String(dnaTest.array());
-				app.parseFastaText(dna);
+				Map<String, DNASequence> sequence = app.parseFastaText(dna);
+				
+				for (String promoter : sequence.keySet()){
+					DNASequence dnaSequence = sequence.get(promoter);
+					int start = app.findStartSequence(dnaSequence.getSequenceAsString());
+					System.out.println("Start Sequence: " + start);
+					int min35 = app.findMinus35Box(dnaSequence.getSequenceAsString());
+					System.out.println("Minus 35 Box: " + min35);
+					int min10 = app.findMinus10Box(dnaSequence.getSequenceAsString());
+					System.out.println("Minus 10 Box: " + min10);
+				}
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
